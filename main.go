@@ -6,29 +6,31 @@ import (
 	"bytes"
 	"fmt"
 	"net/url"
+	"gopkg.in/telegram-bot-api.v4"
 )
 
 const URL = "https://api.telegram.org/bot197287389:AAGjR6JVSXLAv-qI-mTeVv6P3bYLHDUe6M8/"
 const MyURL = "http://dmitrydorofeev.ru/vladjokes/"
 
 func main() {
-	fmt.Println("babab1")
-	_, err := http.Get(URL + "setWebhook?url=" + url.QueryEscape(MyURL))
+	bot, err := tgbotapi.NewBotAPI("MyAwesomeBotToken")
 	if err != nil {
-		log.Fatal("Error")
+		log.Fatal(err)
 	}
 
-	fmt.Println("babab2")
+	bot.Debug = true
 
-	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-		fmt.Println("babab")
-		_, err := http.Post(URL + "sendMessage", "application/x-www-form-urlencoded", bytes.NewBufferString("hello"))
-		if err != nil {
-			log.Fatal("ba")
-		}
-		res.WriteHeader(http.StatusOK)
-		res.Write([]byte("hi"))
-	})
+	log.Printf("Authorized on account %s", bot.Self.UserName)
 
-	http.ListenAndServe(":7356", nil)
+	_, err = bot.SetWebhook(tgbotapi.NewWebhook(MyURL))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	updates := bot.ListenForWebhook("/" + bot.Token)
+	go http.ListenAndServe("0.0.0.0:7356", nil)
+
+	for update := range updates {
+		log.Printf("%+v\n", update)
+	}
 }
