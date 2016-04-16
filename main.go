@@ -5,6 +5,7 @@ import (
 	"log"
 	"bytes"
 	"fmt"
+	"net/url"
 )
 
 const URL = "https://api.telegram.org/bot197287389:AAGjR6JVSXLAv-qI-mTeVv6P3bYLHDUe6M8/"
@@ -12,7 +13,7 @@ const MyURL = "http://dmitrydorofeev.ru/vladjokes/"
 
 func main() {
 	fmt.Println("babab1")
-	_, err := http.Get(URL + "setWebhook?url=" + MyURL)
+	_, err := http.Get(URL + "setWebhook?url=" + url.QueryEscape(MyURL))
 	if err != nil {
 		log.Fatal("Error")
 	}
