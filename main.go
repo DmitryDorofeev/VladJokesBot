@@ -3,9 +3,6 @@ package main
 import (
 	"net/http"
 	"log"
-	"bytes"
-	"fmt"
-	"net/url"
 	"gopkg.in/telegram-bot-api.v4"
 )
 
@@ -13,7 +10,7 @@ const URL = "https://api.telegram.org/bot197287389:AAGjR6JVSXLAv-qI-mTeVv6P3bYLH
 const MyURL = "http://dmitrydorofeev.ru/vladjokes/"
 
 func main() {
-	bot, err := tgbotapi.NewBotAPI("MyAwesomeBotToken")
+	bot, err := tgbotapi.NewBotAPI("197287389:AAGjR6JVSXLAv-qI-mTeVv6P3bYLHDUe6M8")
 	if err != nil {
 		log.Fatal(err)
 	}
